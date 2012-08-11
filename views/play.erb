@@ -1,0 +1,37 @@
+<div id="main">
+  <div id="head">
+    <h1 class="title">Warcards</h1>
+
+    <h2 class="logtypes">This is where you play warcards!</h2>
+
+        <!--<p class="logtypes">-->
+        <!--<%= @game_instance.game_over? %>-->
+        <!--<% @game_instance.rearm? %>-->
+        <!--<% @game_instance.show_cards %>-->
+        <!--<%= @game_instance.war? %>-->
+        <!--<% result = @game_instance.contest %>-->
+        <!--</p>-->
+        <!--<p class="logtypes">-->
+          <!--<%= "#{result[:winner]} had the higher card!" %>-->
+        <!--</p>-->
+
+        <!--<form action="/warcards/play" method="get" >-->
+          <!--<input type="submit" value="Go again"/>-->
+        <!--</form>-->
+
+    <p class="logtypes">
+      <%= @game_instance.ai.name %>   Vs.   <%= @player_name %>
+    </p>
+
+    <p class="logtypes">
+      <% question = @questions.sample %>
+      <%= question.pose %>
+      <% session[:this_answer] = question.answer %>
+    </p>
+    <form action="/warcards/play" method="post" >
+      <input type="text" name="answer" placeholder="Answer..." size="60" autofocus="autofocus" />
+      <input type="submit" value="Submit answer" />
+    </form>
+
+  </div>
+</div>

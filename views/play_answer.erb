@@ -1,0 +1,19 @@
+<div id="main" xmlns="http://www.w3.org/1999/html">
+  <div id="head">
+    <h1 class="title">Cardgames</h1>
+
+    <p class="logtypes">
+      <% if @answer == session[:this_answer] %>
+          That's right! <em>'<%= @answer %>'</em> was the correct answer
+          <% button_text = "Sweet! I'll try one more" %>
+          <% else %>
+      Woops! <em>'<%= session[:this_answer] %>'</em> was the correct answer.
+          <% button_text = "Drat! Gimme another one" %>
+      <% end %>
+    </p>
+
+    <form method="get" action="/warcards/play">
+      <input type="submit" value="<%= button_text %>" autofocus="autofocus"/>
+    </form>
+  </div>
+</div>
