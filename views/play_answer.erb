@@ -1,6 +1,5 @@
-<div id="main" xmlns="http://www.w3.org/1999/html">
-  <div id="head">
-    <h1 class="title">Cardgames</h1>
+<div id="main">
+    <h1 class="title">Answer</h1>
 
     <p class="logtypes">
       <% if @answer == session[:this_answer] %>
@@ -15,5 +14,4 @@
     <form method="get" action="/warcards/play">
       <input type="submit" value="<%= button_text %>" autofocus="autofocus"/>
     </form>
-  </div>
 </div>

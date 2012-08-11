@@ -10,7 +10,6 @@ get "/" do
 end
 
 get "/warcards/setup" do
-  output = "Hello there robie"
   erb :setup
 end
 
@@ -35,49 +34,49 @@ end
 
 get '/warcards/play' do
 
-  class Cardgame::Game
-
-    def output_web_fe(result)
-      output.winner = result[:winner]
-    end
-
-    def challenge_participants(result)
-      if output.winner == @game_instance.player
-        challenge_player(result)
-      else
-        challenge_ai(result)
-      end
-    end
-
-    def challenge_player(result)
-      if test_player
-        output.player_feedback = "Correct! Yay!"
-      else
-        output.player_feedback = "Oooh. I'm sorry. The correct answer was TODO. #{@game_instance.ai.name} became the winner."
-        output.winner          = @game_instance.ai
-      end
-    end
-
-    def challenge_ai(result)
-      if test_ai(@difficulty)
-        output.ai_feedback = "Ai was correct."
-      else
-        output.ai_feedback = "Ai was incorrect. #{@game_instance.player.name} became the winner!"
-        output.winner      = @game_instance.player
-      end
-    end
-
-    def test_player
-      question     = @questions.sample
-      output.posed = question.pose
-      answer       = session[:this_answer] #TODO this is actually the correct answer. use session to bring back the player answer
-      question.is_correct?(answer.chomp)
-    end
-
-    def test_ai(difficulty)
-      @game_instance.ai.difficulty_check?(rand, difficulty)
-    end
-  end
+  #class Cardgame::Game
+  #
+  #  def output_web_fe(result)
+  #    output.winner = result[:winner]
+  #  end
+  #
+  #  def challenge_participants(result)
+  #    if output.winner == @game_instance.player
+  #      challenge_player(result)
+  #    else
+  #      challenge_ai(result)
+  #    end
+  #  end
+  #
+  #  def challenge_player(result)
+  #    if test_player
+  #      output.player_feedback = "Correct! Yay!"
+  #    else
+  #      output.player_feedback = "Oooh. I'm sorry. The correct answer was TODO. #{@game_instance.ai.name} became the winner."
+  #      output.winner          = @game_instance.ai
+  #    end
+  #  end
+  #
+  #  def challenge_ai(result)
+  #    if test_ai(@difficulty)
+  #      output.ai_feedback = "Ai was correct."
+  #    else
+  #      output.ai_feedback = "Ai was incorrect. #{@game_instance.player.name} became the winner!"
+  #      output.winner      = @game_instance.player
+  #    end
+  #  end
+  #
+  #  def test_player
+  #    question     = @questions.sample
+  #    output.posed = question.pose
+  #    answer       = session[:this_answer] #TODO this is actually the correct answer. use session to bring back the player answer
+  #    question.is_correct?(answer.chomp)
+  #  end
+  #
+  #  def test_ai(difficulty)
+  #    @game_instance.ai.difficulty_check?(rand, difficulty)
+  #  end
+  #end
 
 
   @game_instance = Cardgame::Game.new
