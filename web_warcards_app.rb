@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'warcards'
+set :protection, except: :ip_spoofing
 
 configure do
   enable :sessions
@@ -8,6 +9,14 @@ end
 get "/" do
   erb :index
 end
+
+get "/about" do
+  erb :about
+end
+
+#get "/warcards/favicon.ico" do
+#  favicon.ico
+#end
 
 get "/warcards/setup" do
   erb :setup
@@ -78,10 +87,59 @@ get '/warcards/play' do
   #  end
   #end
 
+  @ai     = Cardgame::Ai.new
+  @player = Cardgame::Player.new
+  @deck   = Cardgame::Deck.new
+  @deck.shuffle!
+  @gameplay_instance = Cardgame::Gameplay.new(:ai => @ai, :player => @player, :deck => @deck)
+  @gameplay_instance.deal
+  @questions   = Querinator::Game.new.get_questions(session[:question_file])
+  @difficulty  = session[:difficulty]
+  @player_name = session[:player_name]
+  @gameplay_instance.game_over?
+  @gameplay_instance.rearm?
+  @gameplay_instance.show_cards
+  @result = @gameplay_instance.contest
 
-  @game_instance = Cardgame::Game.new
-  @questions     = Querinator::Game.new.get_questions(session[:question_file])
-  @difficulty    = session[:difficulty]
-  @player_name   = session[:player_name]
+  def challenge_participants(result)
+    if result[:winner] == @gameplay_instance.player
+      challenge_player(result)
+    else
+      challenge_ai(result)
+    end
+  end
+
+  def challenge_player(result)
+    if test_player
+      #puts "Correct! Yay!"
+    else
+      #puts "Oooh. I'm sorry. The correct answer was #{session[:this_answer]}. #{@gameplay_instance.ai.name} became the winner."
+      result[:winner] = @gameplay_instance.ai
+    end
+  end
+
+  def challenge_ai(result)
+    if test_ai(@difficulty)
+      #puts "Ai was correct."
+    else
+      #puts "Ai was wrong. #{@gameplay_instance.player.name} became the winner!"
+      result[:winner] = @gameplay_instance.player
+    end
+  end
+
+  #TODO Here is the tricky bit. get this and you're golden
+  def test_player
+    question = @questions.sample
+    #puts question.pose
+    answer   = gets
+    question.is_correct?(answer.chomp)
+  end
+
+  def test_ai(difficulty)
+    difficulty ||= 0.4
+    @ai.difficulty_check?(rand, difficulty)
+  end
+
+  #challenge_participants(@result)
   erb :play
 end

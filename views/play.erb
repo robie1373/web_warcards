@@ -1,35 +1,37 @@
 <div id="main">
-    <h1 class="title">Warcards</h1>
+  <h1 class="title">Warcards</h1>
 
-    <h2 class="logtypes">This is where you play warcards!</h2>
+  <h2 class="logtypes">This is where you play warcards!</h2>
 
-        <!--<p class="logtypes">-->
-        <!--<%= @game_instance.game_over? %>-->
-        <!--<% @game_instance.rearm? %>-->
-        <!--<% @game_instance.show_cards %>-->
-        <!--<%= @game_instance.war? %>-->
-        <!--<% result = @game_instance.contest %>-->
-        <!--</p>-->
-        <!--<p class="logtypes">-->
-          <!--<%= "#{result[:winner]} had the higher card!" %>-->
-        <!--</p>-->
 
-        <!--<form action="/warcards/play" method="get" >-->
-          <!--<input type="submit" value="Go again"/>-->
-        <!--</form>-->
+  <p class="logtypes">
+    <%= @ai.name %>   Vs.   <%= @player_name %>
+    <br/>
+    <%= "#{@ai.name}'s card: #{@gameplay_instance.ai_cards.last.value}
+      of #{@gameplay_instance.ai_cards.last.suit} Vs. #{@player_name}'s card:
+      #{@gameplay_instance.player_cards.last.value} of #{@gameplay_instance.player_cards.last.suit}" %>
+  </p>
 
-    <p class="logtypes">
-      <%= @game_instance.ai.name %>   Vs.   <%= @player_name %>
-    </p>
+  <p class="logtypes">
+    <% if @result[:winner] %>
+        <%= "#{@result[:winner].name} has the higher card!" %>
+        <%= "Player has #{(@gameplay_instance.player.stack.length + @gameplay_instance.player.discard.length + 1)} cards.
+        \tAI has #{(@gameplay_instance.ai.stack.length + @gameplay_instance.ai.discard.length + 1)} cards." %>
+    <% else %>
+        <%= "There was war! #{@result[:player_cards].length} cards at stake." %>
+    <% end %>
+  </p>
 
-    <p class="logtypes">
-      <% question = @questions.sample %>
-      <%= question.pose %>
-      <% session[:this_answer] = question.answer %>
-    </p>
-    <form action="/warcards/play" method="post" >
-      <input type="text" name="answer" placeholder="Answer..." size="60" autofocus="autofocus" />
-      <input type="submit" value="Submit answer" />
-    </form>
+
+  <p class="logtypes">
+    <% question = @questions.sample %>
+    <%= question.pose %>
+    <% session[:this_answer] = question.answer %>
+  </p>
+
+  <form action="/warcards/play" method="post">
+    <input type="text" name="answer" placeholder="Answer..." size="60" autofocus="autofocus"/>
+    <input type="submit" value="Submit answer"/>
+  </form>
 
 </div>
