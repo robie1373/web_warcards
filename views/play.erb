@@ -24,9 +24,9 @@
 
 
   <p class="logtypes">
-    <% question = @questions.sample %>
-    <%= question.pose %>
-    <% session[:this_answer] = question.answer %>
+    <% session[:this_question] = @questions.sample %>
+    <%= session[:this_question].pose %>
+    <% session[:this_answer] = session[:this_question].answer %>
   </p>
 
   <form action="/warcards/play" method="post">
