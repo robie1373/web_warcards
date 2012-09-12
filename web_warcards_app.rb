@@ -135,10 +135,6 @@ get '/warcards/play' do
     question.is_correct?(answer.chomp)
   end
 
-  def ask_player
-
-  end
-
   def test_ai(difficulty)
     difficulty ||= 0.4
     @ai.difficulty_check?(rand, difficulty)

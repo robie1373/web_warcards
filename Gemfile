@@ -8,6 +8,7 @@ group :developmentmac do
 	gem 'guard-minitest', '~>0.5.0', :require => 'guard/minitest'
 	gem 'growl', '~>1.0.3'
 	gem 'turn', '~>0.9.6'
+  gem 'rack-test', :require => 'rack/test'
 end
 
 group :developmentwin do
