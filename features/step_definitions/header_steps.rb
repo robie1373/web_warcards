@@ -12,18 +12,6 @@ Then /^I should see the about page$/ do
     about_text.text.should match(/This is Cardgames/)
 end
 
-#Given /^I am on a webwarcards page$/ do
-#  browser.goto 'localhost:4567/warcards/setup'
-#end
-#
-#When /^I click the home link$/ do
-#  browser.link(:text => "home").click
-#end
-#
-#Then /^I should be on the home page$/ do
-#  browser.url.should match(/http:\/\/.+:4567\/$/)
-#end
-
 Given /^I am on  "(.*?)"$/ do |start_page|
   base = "http://localhost:4567"
   browser.goto base << start_page
@@ -34,5 +22,5 @@ When /^I click the "(.*?)"$/ do |link_text|
 end
 
 Then /^I should be on the "(.*?)"$/ do |url_end|
-  browser.url.should match(/http:\/\/.+:4567\/#{url_end}$/)
+  URI.parse(browser.url).path.should == url_end
 end

@@ -1,6 +1,7 @@
 require 'watir-webdriver'
 require 'nokogiri'
 require './web_warcards_app'
+require 'open-uri'
 
 
 module HasBrowser

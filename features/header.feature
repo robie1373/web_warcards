@@ -7,13 +7,13 @@ Feature: HeaderLinks
 
   Examples:
     | start_page         | link    | result_page |
-    | "/"                | "home"  | ""          |
-    | "/warcards/setup"  | "home"  | ""          |
-#    | "/warcards/verify" | "home"  | ""          |
-    | "/warcards/play?"  | "home"  | ""          |
-    | "/warcards/play"   | "home"  | ""          |
-    | "/"                | "about" | "about"     |
-    | "/warcards/setup"  | "about" | "about"     |
-#    | "/warcards/verify" | "about" | "about"     |
-    | "/warcards/play?"  | "about" | "about"     |
-    | "/warcards/play"   | "about" | "about"     |
+    | "/"                | "home"  | "/"          |
+    | "/warcards/setup"  | "home"  | "/"          |
+#    | "/warcards/verify" | "home"  | "/"          |
+    | "/warcards/play?"  | "home"  | "/"          |
+    | "/warcards/play"   | "home"  | "/"          |
+    | "/"                | "about" | "/about"     |
+    | "/warcards/setup"  | "about" | "/about"     |
+#    | "/warcards/verify" | "about" | "/about"     |
+    | "/warcards/play?"  | "about" | "/about"     |
+    | "/warcards/play"   | "about" | "/about"     |
