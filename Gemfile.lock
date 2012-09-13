@@ -1,33 +1,49 @@
+PATH
+  remote: .
+  specs:
+    web_warcards (0.0.1)
+      bundler (~> 1.1)
+      rake (~> 0.9.2)
+      sinatra (~> 1.3)
+      thin (~> 1.4)
+      warcards (~> 0.0.5)
+
 GEM
   remote: https://rubygems.org/
   specs:
-    ansi (1.4.3)
-    builder (3.0.0)
+    addressable (2.3.2)
+    backports (2.6.4)
+    builder (3.1.3)
+    childprocess (0.3.5)
+      ffi (~> 1.0, >= 1.0.6)
+    commonwatir (3.0.0)
+    cucumber (1.2.1)
+      builder (>= 2.1.2)
+      diff-lcs (>= 1.1.3)
+      gherkin (~> 2.11.0)
+      json (>= 1.4.6)
     daemons (1.1.9)
-    eventmachine (0.12.10)
+    diff-lcs (1.1.3)
+    eventmachine (1.0.0)
+    eventmachine (1.0.0-x86-mingw32)
     ffi (1.1.5)
-    growl (1.0.3)
-    guard (1.2.3)
-      listen (>= 0.4.2)
-      thor (>= 0.14.6)
-    guard-minitest (0.5.0)
-      guard (>= 0.4)
-    hashie (1.2.0)
-    listen (0.4.7)
-      rb-fchange (~> 0.0.5)
-      rb-fsevent (~> 0.9.1)
-      rb-inotify (~> 0.8.8)
+    gherkin (2.11.2)
+      json (>= 1.4.6)
+    gherkin (2.11.2-x86-mingw32)
+      json (>= 1.4.6)
+    hoe (3.0.8)
+      rake (~> 0.8)
+    json (1.7.5)
+    libwebsocket (0.1.5)
+      addressable
+    mini_magick (3.2.1)
+      subexec (~> 0.0.4)
     minitest (3.3.0)
-    minitest-reporters (0.9.0)
-      ansi
-      builder
-      minitest (>= 2.0, < 4.0)
-      powerbar
     minitest-spec (0.0.2.1)
       minitest (>= 3.0)
-    powerbar (1.0.8)
-      ansi (~> 1.4.0)
-      hashie (>= 1.1.0)
+    multi_json (1.3.6)
+    nokogiri (1.5.5)
+    nokogiri (1.5.5-x86-mingw32)
     querinator (0.0.2)
       rake (~> 0.9.2)
     rack (1.4.1)
@@ -36,42 +52,83 @@ GEM
     rack-test (0.6.1)
       rack (>= 1.0)
     rake (0.9.2.2)
-    rb-fchange (0.0.5)
-      ffi
-    rb-fsevent (0.9.1)
-    rb-inotify (0.8.8)
-      ffi (>= 0.5.0)
-    sinatra (1.3.2)
+    rautomation (0.7.2)
+    rubyzip (0.9.9)
+    s4t-utils (1.0.4)
+      hoe (>= 1.3.0)
+    selenium-webdriver (2.25.0)
+      childprocess (>= 0.2.5)
+      libwebsocket (~> 0.1.3)
+      multi_json (~> 1.0)
+      rubyzip
+    sinatra (1.3.3)
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
       tilt (~> 1.3, >= 1.3.3)
+    sinatra-contrib (1.3.1)
+      backports (>= 2.0)
+      eventmachine
+      rack-protection
+      rack-test
+      sinatra (~> 1.3.0)
+      tilt (~> 1.3)
+    sinatra-reloader (1.0)
+      sinatra-contrib
+    subexec (0.0.4)
     thin (1.4.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
-    thor (0.15.4)
     tilt (1.3.3)
-    turn (0.9.6)
-      ansi
+    user-choices (1.1.6.1)
+      builder (>= 2.1.2)
+      s4t-utils (>= 1.0.3)
+      xml-simple (>= 1.0.11)
     warcards (0.0.5)
       bundler (~> 1.1)
       querinator
       rake (~> 0.9.2)
+    watir (3.0.0)
+      commonwatir (= 3.0.0)
+      watir-classic (~> 3)
+    watir-classic (3.1.0)
+      ffi (~> 1.0)
+      nokogiri
+      rautomation (~> 0.7.2)
+      user-choices
+      win32-process (>= 0.5.5)
+      win32screenshot
+      windows-pr (>= 0.6.6)
+      yajl-ruby
+    watir-webdriver (0.6.1)
+      selenium-webdriver (>= 2.18.0)
+    win32-api (1.4.8)
+    win32-api (1.4.8-x86-mingw32)
+    win32-process (0.7.0)
+      ffi (>= 1.0.0)
+    win32screenshot (1.0.7)
+      ffi (~> 1.0)
+      mini_magick (~> 3.2.1)
+      rautomation (~> 0.7.0)
+    windows-api (0.4.2)
+      win32-api (>= 1.4.5)
+    windows-pr (1.2.2)
+      win32-api (>= 1.4.5)
+      windows-api (>= 0.3.0)
+    xml-simple (1.1.1)
+    yajl-ruby (1.1.0)
+    yajl-ruby (1.1.0-x86-mingw32)
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
-  bundler (~> 1.1)
-  growl (~> 1.0.3)
-  guard (~> 1.2.3)
-  guard-minitest (~> 0.5.0)
-  minitest-reporters (~> 0.9.0)
+  cucumber
   minitest-spec (~> 0.0.2)
+  nokogiri
   rack-test
-  rake (~> 0.9.2)
-  rb-fsevent (~> 0.9.1)
-  sinatra (~> 1.3)
-  thin (~> 1.4.1)
-  turn (~> 0.9.6)
-  warcards (~> 0.0.5)
+  sinatra-reloader
+  watir
+  watir-webdriver
+  web_warcards!
