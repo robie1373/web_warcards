@@ -44,51 +44,6 @@ post '/warcards/play' do
 end
 
 get '/warcards/play' do
-
-  #class Cardgame::Game
-  #
-  #  def output_web_fe(result)
-  #    output.winner = result[:winner]
-  #  end
-  #
-  #  def challenge_participants(result)
-  #    if output.winner == @game_instance.player
-  #      challenge_player(result)
-  #    else
-  #      challenge_ai(result)
-  #    end
-  #  end
-  #
-  #  def challenge_player(result)
-  #    if test_player
-  #      output.player_feedback = "Correct! Yay!"
-  #    else
-  #      output.player_feedback = "Oooh. I'm sorry. The correct answer was TODO. #{@game_instance.ai.name} became the winner."
-  #      output.winner          = @game_instance.ai
-  #    end
-  #  end
-  #
-  #  def challenge_ai(result)
-  #    if test_ai(@difficulty)
-  #      output.ai_feedback = "Ai was correct."
-  #    else
-  #      output.ai_feedback = "Ai was incorrect. #{@game_instance.player.name} became the winner!"
-  #      output.winner      = @game_instance.player
-  #    end
-  #  end
-  #
-  #  def test_player
-  #    question     = @questions.sample
-  #    output.posed = question.pose
-  #    answer       = session[:this_answer] #TODO this is actually the correct answer. use session to bring back the player answer
-  #    question.is_correct?(answer.chomp)
-  #  end
-  #
-  #  def test_ai(difficulty)
-  #    @game_instance.ai.difficulty_check?(rand, difficulty)
-  #  end
-  #end
-
   @ai     = Cardgame::Ai.new
   @player = Cardgame::Player.new
   @deck   = Cardgame::Deck.new
@@ -119,18 +74,13 @@ get '/warcards/play' do
   end
 
   def challenge_ai(result)
-    if test_ai(@difficulty)
-      #puts "Ai was correct."
-    else
-      #puts "Ai was wrong. #{@gameplay_instance.player.name} became the winner!"
+    unless test_ai(@difficulty)
       result[:winner] = @gameplay_instance.player
     end
   end
 
-  #TODO Here is the tricky bit. get this and you're golden
   def test_player
     question = @@questions.sample
-    #puts question.pose
     answer   = gets
     question.is_correct?(answer.chomp)
   end
