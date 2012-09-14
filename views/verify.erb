@@ -1,4 +1,4 @@
-<div id="main">
+<div id="main" xmlns="http://www.w3.org/1999/html">
     <h1 class="title">Warcards Validate</h1>
 
     <form action="/warcards/play" method="GET">
@@ -9,12 +9,14 @@
 
     <h2 class="logtypes">Question data:</h2>
     <table>
-      <% File.open(@demo_questions_file, 'r') do |file| %>
-          <% file.readlines.each do |line| %>
-              <tr class="logtypes">
-                <td class="logtypes"> <%= line %> </td>
-              </tr>
-          <% end %>
+      <% @@questions.each do |question| %>
+          <tr class="logtypes">
+            <td class="logtypes">
+              <p>Question:  <%= question.pose %>
+              <br/>
+              Answer:  <%= question.answer %></p>
+            </td>
+          </tr>
       <% end %>
     </table>
 

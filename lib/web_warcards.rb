@@ -3,7 +3,8 @@ require 'sinatra'
 require 'warcards'
 require 'sinatra/reloader' if development?
 
-set :protection, except: :ip_spoofing
+set :protection, :except => :ip_spoofing
+@@questions = Querinator::Game.new.get_questions(File.expand_path(Dir.glob("public/*.txt").first))
 
 configure do
   enable :sessions
@@ -26,14 +27,13 @@ get "/warcards/setup" do
 end
 
 post '/warcards/verify' do
-  session[:questions]   = Querinator::Game.new.get_questions(session[:question_file])
-  @demo_questions_file    = File.expand_path(Dir.glob("public/*.txt").first)
-  session[:question_file] = @demo_questions_file
-  session[:difficulty]     = @difficulty
-  session[:player_name]   = params[:player_name]
-  @params                 = params
-  @filename               = params['filename']
-  @difficulty             = params['difficulty']
+  question_file         = File.expand_path(Dir.glob("public/*.txt").first)
+  @@questions           = Querinator::Game.new.get_questions(question_file)
+  session[:difficulty]  = @difficulty
+  session[:player_name] = params[:player_name]
+  @params               = params
+  @filename             = params['filename']
+  @difficulty           = params['difficulty']
   erb :verify
 end
 
@@ -95,8 +95,7 @@ get '/warcards/play' do
   @deck.shuffle!
   @gameplay_instance = Cardgame::Gameplay.new(:ai => @ai, :player => @player, :deck => @deck)
   @gameplay_instance.deal
-  #@questions   = Querinator::Game.new.get_questions(session[:question_file])
-  @difficulty  = session[:difficulty]
+  @difficulty = session[:difficulty]
   @gameplay_instance.game_over?
   @gameplay_instance.rearm?
   @gameplay_instance.show_cards
@@ -130,7 +129,7 @@ get '/warcards/play' do
 
   #TODO Here is the tricky bit. get this and you're golden
   def test_player
-    question = session[:questions].sample
+    question = @@questions.sample
     #puts question.pose
     answer   = gets
     question.is_correct?(answer.chomp)
