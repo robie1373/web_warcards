@@ -1,14 +1,12 @@
 <div id="main">
   <h1 class="title">Warcards</h1>
 
-  <h2 class="logtypes">This is where you play warcards!</h2>
-
-
   <p class="logtypes">
-    <%= @ai.name %>   Vs.   <%= @player_name %>
+    <%= @ai.name %>   Vs.   <%= session[:player_name] %>
+    <br/>
     <br/>
     <%= "#{@ai.name}'s card: #{@gameplay_instance.ai_cards.last.value}
-      of #{@gameplay_instance.ai_cards.last.suit} Vs. #{@player_name}'s card:
+      of #{@gameplay_instance.ai_cards.last.suit} Vs. #{session[:player_name]}'s card:
       #{@gameplay_instance.player_cards.last.value} of #{@gameplay_instance.player_cards.last.suit}" %>
   </p>
 
@@ -24,7 +22,7 @@
 
 
   <p class="logtypes">
-    <% session[:this_question] = @questions.sample %>
+    <% session[:this_question] = session[:questions].sample %>
     <%= session[:this_question].pose %>
     <% session[:this_answer] = session[:this_question].answer %>
   </p>

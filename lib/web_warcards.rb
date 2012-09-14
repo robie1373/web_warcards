@@ -26,12 +26,11 @@ get "/warcards/setup" do
 end
 
 post '/warcards/verify' do
-  @ls                     = Dir.glob "public/*"
+  session[:questions]   = Querinator::Game.new.get_questions(session[:question_file])
   @demo_questions_file    = File.expand_path(Dir.glob("public/*.txt").first)
   session[:question_file] = @demo_questions_file
   session[:difficulty]     = @difficulty
   session[:player_name]   = params[:player_name]
-  @player_name            = session[:player_name]
   @params                 = params
   @filename               = params['filename']
   @difficulty             = params['difficulty']
@@ -96,9 +95,8 @@ get '/warcards/play' do
   @deck.shuffle!
   @gameplay_instance = Cardgame::Gameplay.new(:ai => @ai, :player => @player, :deck => @deck)
   @gameplay_instance.deal
-  @questions   = Querinator::Game.new.get_questions(session[:question_file])
+  #@questions   = Querinator::Game.new.get_questions(session[:question_file])
   @difficulty  = session[:difficulty]
-  @player_name = session[:player_name]
   @gameplay_instance.game_over?
   @gameplay_instance.rearm?
   @gameplay_instance.show_cards
@@ -132,7 +130,7 @@ get '/warcards/play' do
 
   #TODO Here is the tricky bit. get this and you're golden
   def test_player
-    question = @questions.sample
+    question = session[:questions].sample
     #puts question.pose
     answer   = gets
     question.is_correct?(answer.chomp)
