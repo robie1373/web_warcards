@@ -15,17 +15,18 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = WebWarcards::VERSION
 
-  if ENV['OS'].match /OS X/i
+  if RUBY_PLATFORM.match /darwin/i
     gem.add_development_dependency 'rb-fsevent', '~>0.9.1'
     gem.add_development_dependency 'growl', '~>1.0.3'
     gem.add_development_dependency 'firewatir'
     gem.add_development_dependency 'guard', '~>1.2.3'
     gem.add_development_dependency 'guard-minitest', '~>0.5.0'
+    gem.add_development_dependency 'shotgun'
     gem.add_development_dependency 'turn', '~>0.9.6'
-  elsif ENV['OS'].match /WINDOWS_NT/i
+  elsif RUBY_PLATFORM.match /mswin/i
     gem.add_development_dependency 'watir'
-    gem.add_development_dependency 'sinatra-reloader'
   end
+  gem.add_development_dependency 'sinatra-reloader'
   gem.add_development_dependency 'minitest-spec', '~>0.0.2'
   gem.add_development_dependency 'minitest-spec', '~>0.0.2'
   gem.add_development_dependency 'rack-test'

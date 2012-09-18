@@ -5,31 +5,44 @@
     <%= @ai.name %>   Vs.   <%= session[:player_name] %>
     <br/>
     <br/>
-    <%= "#{@ai.name}'s card: #{@gameplay_instance.ai_cards.last.value}
-      of #{@gameplay_instance.ai_cards.last.suit} Vs. #{session[:player_name]}'s card:
-      #{@gameplay_instance.player_cards.last.value} of #{@gameplay_instance.player_cards.last.suit}" %>
-  </p>
 
-  <p class="logtypes">
-    <% if @result[:winner] %>
-        <%= "#{@result[:winner].name} has the higher card!" %>
-        <%= "Player has #{(@gameplay_instance.player.stack.length + @gameplay_instance.player.discard.length + 1)} cards.
-        \tAI has #{(@gameplay_instance.ai.stack.length + @gameplay_instance.ai.discard.length + 1)} cards." %>
+    <% if session[:gameplay_instance].game_over?[:over?] == FALSE %>
+        <% session[:gameplay_instance].rearm? %>
+        <%= "#{@ai.name}'s card: #{session[:gameplay_instance].ai_cards.last.value}
+      of #{session[:gameplay_instance].ai_cards.last.suit} Vs. #{session[:player_name]}'s card:
+      #{session[:gameplay_instance].player_cards.last.value} of #{session[:gameplay_instance].player_cards.last.suit}" %>
+        </p>
+
+        <p class="logtypes">
+          <% if session[:result][:winner] %>
+              <%= "#{session[:result][:winner].name} has the higher card!" %>
+              <%= "Player has #{(session[:gameplay_instance].player.stack.length + session[:gameplay_instance].player.discard.length + 1)} cards.
+        \tAI has #{(session[:gameplay_instance].ai.stack.length + session[:gameplay_instance].ai.discard.length + 1)} cards." %>
+          <% else %>
+              <%= "There was war! #{session[:result][:player_cards].length} cards at stake." %>
+          <% end %>
+        </p>
+
+        <% if session[:result][:winner] == @player %>
+            <p class="logtypes">
+              <% session[:this_question] = @@questions.sample %>
+              <%= session[:this_question].pose %>
+              <% session[:this_answer] = session[:this_question].answer %>
+            </p>
+
+            <form action="/warcards/play" method="post">
+              <input type="text" name="answer" placeholder="Answer..." size="60" autofocus="autofocus"/>
+              <input type="submit" value="Submit answer"/>
+            </form>
+        <% else %>
+            <form action="/warcards/play" method="get">
+              <input type="submit" value="Deal again" autofocus="autofocus"/>
+            </form>
+        <% end %>
     <% else %>
-        <%= "There was war! #{@result[:player_cards].length} cards at stake." %>
+        <p class="logtypes">
+          <%= "Game Over. #{session[:gameplay_instance].game_over?[:winner]}" %>
+        </p>
     <% end %>
-  </p>
 
-
-  <p class="logtypes">
-    <% session[:this_question] = @@questions.sample %>
-    <%= session[:this_question].pose %>
-    <% session[:this_answer] = session[:this_question].answer %>
-  </p>
-
-  <form action="/warcards/play" method="post">
-    <input type="text" name="answer" placeholder="Answer..." size="60" autofocus="autofocus"/>
-    <input type="submit" value="Submit answer"/>
-  </form>
-
-</div>
+    </div>

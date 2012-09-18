@@ -48,16 +48,16 @@ get '/warcards/play' do
   @player = Cardgame::Player.new
   @deck   = Cardgame::Deck.new
   @deck.shuffle!
-  @gameplay_instance = Cardgame::Gameplay.new(:ai => @ai, :player => @player, :deck => @deck)
-  @gameplay_instance.deal
+  session[:gameplay_instance] = Cardgame::Gameplay.new(:ai => @ai, :player => @player, :deck => @deck)
+  session[:gameplay_instance].deal
   @difficulty = session[:difficulty]
-  @gameplay_instance.game_over?
-  @gameplay_instance.rearm?
-  @gameplay_instance.show_cards
-  @result = @gameplay_instance.contest
+  session[:gameplay_instance].game_over?
+  session[:gameplay_instance].rearm?
+  session[:gameplay_instance].show_cards
+  session[:result] = session[:gameplay_instance].contest
 
   def challenge_participants(result)
-    if result[:winner] == @gameplay_instance.player
+    if result[:winner] == session[:gameplay_instance].player
       challenge_player(result)
     else
       challenge_ai(result)
@@ -68,14 +68,14 @@ get '/warcards/play' do
     if test_player
       #puts "Correct! Yay!"
     else
-      #puts "Oooh. I'm sorry. The correct answer was #{session[:this_answer]}. #{@gameplay_instance.ai.name} became the winner."
-      result[:winner] = @gameplay_instance.ai
+      #puts "Oooh. I'm sorry. The correct answer was #{session[:this_answer]}. #{session[:gameplay_instance].ai.name} became the winner."
+      result[:winner] = session[:gameplay_instance].ai
     end
   end
 
   def challenge_ai(result)
     unless test_ai(@difficulty)
-      result[:winner] = @gameplay_instance.player
+      result[:winner] = session[:gameplay_instance].player
     end
   end
 
@@ -90,6 +90,6 @@ get '/warcards/play' do
     @ai.difficulty_check?(rand, difficulty)
   end
 
-  #challenge_participants(@result)
+  #challenge_participants(session[:result])
   erb :play
 end
