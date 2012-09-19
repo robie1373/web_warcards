@@ -36,6 +36,11 @@
             </form>
         <% else %>
             <form action="/warcards/play" method="get">
+              <% if session[:gameplay_instance].test_ai(rand, session[:difficulty]) %>
+                  <%= "#{@ai.name} was correct and wins the round." %>
+              <% else %>
+                  <%= "#{@ai.name} was incorrect. #{@player.name} wins the round!" %>
+              <% end %>
               <input type="submit" value="Deal again" autofocus="autofocus"/>
             </form>
         <% end %>

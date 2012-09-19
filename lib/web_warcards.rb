@@ -10,6 +10,8 @@ configure do
   enable :sessions
 end
 
+@@game = Cardgame::Game.new
+
 get "/" do
   erb :index
 end
@@ -34,6 +36,7 @@ post '/warcards/verify' do
   @params               = params
   @filename             = params['filename']
   @difficulty           = params['difficulty']
+
   erb :verify
 end
 
@@ -56,39 +59,39 @@ get '/warcards/play' do
   session[:gameplay_instance].show_cards
   session[:result] = session[:gameplay_instance].contest
 
-  def challenge_participants(result)
-    if result[:winner] == session[:gameplay_instance].player
-      challenge_player(result)
-    else
-      challenge_ai(result)
-    end
-  end
-
-  def challenge_player(result)
-    if test_player
-      #puts "Correct! Yay!"
-    else
-      #puts "Oooh. I'm sorry. The correct answer was #{session[:this_answer]}. #{session[:gameplay_instance].ai.name} became the winner."
-      result[:winner] = session[:gameplay_instance].ai
-    end
-  end
-
-  def challenge_ai(result)
-    unless test_ai(@difficulty)
-      result[:winner] = session[:gameplay_instance].player
-    end
-  end
-
-  def test_player
-    question = @@questions.sample
-    answer   = gets
-    question.is_correct?(answer.chomp)
-  end
-
-  def test_ai(difficulty)
-    difficulty ||= 0.4
-    @ai.difficulty_check?(rand, difficulty)
-  end
+  #def challenge_participants(result)
+  #  if result[:winner] == session[:gameplay_instance].player
+  #    challenge_player(result)
+  #  else
+  #    challenge_ai(result)
+  #  end
+  #end
+  #
+  #def challenge_player(result)
+  #  if test_player
+  #    #puts "Correct! Yay!"
+  #  else
+  #    #puts "Oooh. I'm sorry. The correct answer was #{session[:this_answer]}. #{session[:gameplay_instance].ai.name} became the winner."
+  #    result[:winner] = session[:gameplay_instance].ai
+  #  end
+  #end
+  #
+  #def challenge_ai(result)
+  #  unless test_ai(@difficulty)
+  #    result[:winner] = session[:gameplay_instance].player
+  #  end
+  #end
+  #
+  #def test_player
+  #  question = @@questions.sample
+  #  answer   = gets
+  #  question.is_correct?(answer.chomp)
+  #end
+  #
+  #def test_ai(difficulty)
+  #  difficulty ||= 0.4
+  #  @ai.difficulty_check?(rand, difficulty)
+  #end
 
   #challenge_participants(session[:result])
   erb :play
