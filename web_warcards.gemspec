@@ -35,7 +35,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'nokogiri'
 
   gem.add_dependency 'bundler', "~>1.1"
-  gem.add_dependency 'warcards', "~>0.0.5"
+  gem.add_dependency 'warcards', "~>0.0.7"
   gem.add_dependency 'rake', '~>0.9.2'
   gem.add_dependency 'sinatra', '~>1.3'
   gem.add_dependency 'thin', '~>1.4'

@@ -25,17 +25,17 @@ end
 #end
 
 get "/warcards/setup" do
+  response.delete_cookie 'difficulty'
   erb :setup
 end
 
 post '/warcards/verify' do
-  question_file         = File.expand_path(Dir.glob("public/*.txt").first)
-  @@questions           = Querinator::Game.new.get_questions(question_file)
-  session[:difficulty]  = @difficulty
-  session[:player_name] = params[:player_name]
-  @params               = params
-  @filename             = params['filename']
-  @difficulty           = params['difficulty']
+  response.set_cookie("difficulty", :value => params['difficulty'], :path => '/warcards')
+  @difficulty = params['difficulty']
+  response.set_cookie("player_name", :value => params['player_name'], :path => '/warcards')
+  question_file = File.expand_path(Dir.glob("public/*.txt").first)
+  @@questions   = Querinator::Game.new.get_questions(question_file)
+  @filename     = params['filename']
 
   erb :verify
 end
@@ -47,13 +47,13 @@ post '/warcards/play' do
 end
 
 get '/warcards/play' do
-  @ai     = Cardgame::Ai.new
-  @player = Cardgame::Player.new
-  @deck   = Cardgame::Deck.new
+  @ai     = @@game.ai
+  @player = @@game.player
+  @deck   = @@game.deck
   @deck.shuffle!
   session[:gameplay_instance] = Cardgame::Gameplay.new(:ai => @ai, :player => @player, :deck => @deck)
   session[:gameplay_instance].deal
-  @difficulty = session[:difficulty]
+  #@difficulty = session[:difficulty]
   session[:gameplay_instance].game_over?
   session[:gameplay_instance].rearm?
   session[:gameplay_instance].show_cards

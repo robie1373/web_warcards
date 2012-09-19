@@ -2,22 +2,23 @@
   <h1 class="title">Warcards</h1>
 
   <p class="logtypes">
-    <%= @ai.name %>   Vs.   <%= session[:player_name] %>
+    <%= @ai.name %>   Vs.   <%= request.cookies['player_name'] %>
     <br/>
     <br/>
 
     <% if session[:gameplay_instance].game_over?[:over?] == FALSE %>
         <% session[:gameplay_instance].rearm? %>
         <%= "#{@ai.name}'s card: #{session[:gameplay_instance].ai_cards.last.value}
-      of #{session[:gameplay_instance].ai_cards.last.suit} Vs. #{session[:player_name]}'s card:
+      of #{session[:gameplay_instance].ai_cards.last.suit} Vs. #{request.cookies['player_name']}'s card:
       #{session[:gameplay_instance].player_cards.last.value} of #{session[:gameplay_instance].player_cards.last.suit}" %>
         </p>
 
         <p class="logtypes">
           <% if session[:result][:winner] %>
               <%= "#{session[:result][:winner].name} has the higher card!" %>
-              <%= "Player has #{(session[:gameplay_instance].player.stack.length + session[:gameplay_instance].player.discard.length + 1)} cards.
-        \tAI has #{(session[:gameplay_instance].ai.stack.length + session[:gameplay_instance].ai.discard.length + 1)} cards." %>
+              <%= "Player has #{@@game.player_holdings} cards.\tAI has #{@@game.ai_holdings} cards." %>
+              <br/>
+              <%= "#{@@game.build_graph(@@game.player_holdings, @@game.ai_holdings)}" %>
           <% else %>
               <%= "There was war! #{session[:result][:player_cards].length} cards at stake." %>
           <% end %>
@@ -36,7 +37,7 @@
             </form>
         <% else %>
             <form action="/warcards/play" method="get">
-              <% if session[:gameplay_instance].test_ai(rand, session[:difficulty]) %>
+              <% if @@game.test_ai(rand, request.cookies['difficulty'].to_f) %>
                   <%= "#{@ai.name} was correct and wins the round." %>
               <% else %>
                   <%= "#{@ai.name} was incorrect. #{@player.name} wins the round!" %>
@@ -46,7 +47,7 @@
         <% end %>
     <% else %>
         <p class="logtypes">
-          <%= "Game Over. #{session[:gameplay_instance].game_over?[:winner]}" %>
+          <%= "Game Over. #{@@game.game_over?[:winner]}" %>
         </p>
     <% end %>
 
